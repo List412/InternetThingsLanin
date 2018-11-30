@@ -1,6 +1,15 @@
 import roman
 import re
 
+
+def replace(m):
+    print(m)
+    if m.group(1).__len__() > 0:
+        return str(roman.fromRoman(m.group(1)))
+    else:
+        return m.group(1)
+
+
 file = open('input.txt', 'r', encoding='utf-8')
 data = file.read()
 file.close()
@@ -8,12 +17,9 @@ file.close()
 regexp = r"\b((?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3}))[,\.»]?\b"
 pattern = re.compile(regexp, re.UNICODE)
 
-rom = re.findall(pattern, data)
+data = re.sub(pattern, replace, data)
 
-for r in rom:
-    print(r)
-    if str(r[0]).__len__() > 0:
-        data = data.replace(r[0], str(roman.fromRoman(r[0])))
-        print(str(roman.fromRoman(r[0])))
+file = open('output.txt', 'w', encoding='utf-8')
+file.write(data)
+file.close()
 
-print(data)
