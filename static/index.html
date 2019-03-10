@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="form">
+    <label>
+        Ваш вопрос
+        <input id="message" type="text" title="Ваш вопрос">
+    </label>
+    <button class="button" id="post-btn">Отправить</button>
+    <br>
+    <span class="" id="result"></span>
+</div>
+</body>
+</html>
+
+<script>
+    const button = document.getElementById('post-btn');
+    const area = document.getElementById('result');
+
+    button.addEventListener('click', async _ => {
+      try {
+          let text = $('#message').val();
+          console.log(text);
+          const response = await fetch('chat', {
+              method: 'post',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+              body: JSON.stringify({ message: text})
+          });
+          const res = await response.json();
+          area.innerText = res.message;
+          console.log('Completed!', res.message);
+      } catch(err) {
+        console.error(`Error: ${err}`);
+      }
+    });
+</script>
